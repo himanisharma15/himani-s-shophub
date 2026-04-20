@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { products } from '../data/products';
 import ProductCard from '../components/ProductCard';
 
@@ -12,6 +12,7 @@ const heroSlides = [
 const Home = ({ onAddToCart }) => {
   // Slider state
   const [currentSlide, setCurrentSlide] = useState(0);
+  const location = useLocation();
 
   // Auto-slide effect
   useEffect(() => {
@@ -21,6 +22,13 @@ const Home = ({ onAddToCart }) => {
 
     return () => clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    if (location.state?.orderSuccess) {
+      alert("🎉 Order placed successfully! Thank you for shopping with us.");
+      window.history.replaceState({}, document.title);
+    }
+  }, [location]);
 
   // Show only first 6 products as featured now since we have more
   const featuredProducts = products.slice(0, 6);

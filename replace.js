@@ -1,21 +1,10 @@
-import React from 'react';
+const fs = require('fs');
+let content = fs.readFileSync('src/components/Footer.jsx', 'utf-8');
+const oldText = content.substring(content.indexOf('<div className="footer-section">\n          <h3>Follow Us</h3>'), content.indexOf('</div>\n      </div>\n      <div className="footer-bottom">'));
 
-const Footer = () => {
-  return (
-    <footer className="footer">
-      <div className="footer-content">
-        <div className="footer-section">
-          <h3>ShopHub</h3>
-          <p>Your one-stop shop for modern lifestyle products. Quality and convenience delivered.</p>
-        </div>
-        <div className="footer-section">
-          <h3>Contact Us</h3>
-          <p>Email: support@shophub.com</p>
-          <p>Phone: +1 234 567 890</p>
-        </div>
-        <div className="footer-section">
+const newText = `<div className="footer-section">
           <h3>Reach Us At</h3>
-          <div className="social-icons" style={{display: 'flex', gap: '10px', marginBottom: '15px' }}>
+          <div className="social-icons" style={{display: 'flex', gap: '10px', marginBottom: '15px'}}>
             <a href="#" target="_blank" rel="noopener noreferrer" style={{
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               width: '35px', height: '35px', borderRadius: '50%', background: '#1877F2', color: 'white', textDecoration: 'none', fontWeight: 'bold'
@@ -27,11 +16,11 @@ const Footer = () => {
             <a href="#" target="_blank" rel="noopener noreferrer" style={{
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               width: '35px', height: '35px', borderRadius: '50%', background: '#25D366', color: 'white', textDecoration: 'none', fontWeight: 'bold'
-            }}>w</a>
+            }}>W</a>
           </div>
-          <div style={{ marginTop: '10px', borderRadius: '8px', overflow: 'hidden', height: '200px', width: '100%', maxWidth: '350px', position: 'relative'}}>
+          <div style={{ marginTop: '15px', borderRadius: '8px', overflow: 'hidden', height: '200px', width: '100%', maxWidth: '350px'}}>
             <iframe 
-              src="https://maps.google.com/maps?width=100%25&height=600&hl=en&q=Bilaspur,+Chhattisgarh+495001&t=&z=14&ie=UTF8&iwloc=B&output=embed" 
+              src="https://maps.google.com/maps?q=Bilaspur,+Chhattisgarh+495001&t=&z=14&ie=UTF8&iwloc=&output=embed" 
               width="100%" 
               height="100%" 
               style={{ border: 0 }} 
@@ -41,13 +30,7 @@ const Footer = () => {
               title="Bilaspur Location Map"
             ></iframe>
           </div>
-        </div>
-      </div>
-      <div className="footer-bottom">
-        <p>&copy; {new Date().getFullYear()} ShopHub. All rights reserved.</p>
-      </div>
-    </footer>
-  );
-};
+        </div>\n`;
 
-export default Footer;
+content = content.replace(oldText, newText);
+fs.writeFileSync('src/components/Footer.jsx', content);

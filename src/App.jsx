@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // Components
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import Toast from './components/Toast';
 
 // Pages
 import Home from './pages/Home';
@@ -11,6 +12,7 @@ import Products from './pages/Products';
 import ProductDetails from './pages/ProductDetails';
 import Cart from './pages/Cart';
 import Login from './pages/Login';
+import Checkout from './pages/Checkout';
 
 function App() {
   // Initialize cart from LocalStorage, or empty array if none
@@ -18,6 +20,13 @@ function App() {
     const savedCart = localStorage.getItem('shophub_cart');
     return savedCart ? JSON.parse(savedCart) : [];
   });
+
+  // Toast state
+  const [toast, setToast] = useState({ message: '', type: 'success' });
+
+  const showToast = (message, type = 'success') => {
+    setToast({ message, type });
+  };
 
   // Save cart to LocalStorage whenever it changes
   useEffect(() => {
@@ -40,7 +49,7 @@ function App() {
         return [...prevCart, { ...product, quantity: 1 }];
       }
     });
-    alert(`${product.name} added to cart!`);
+    showToast(`${product.name} added to cart!`);
   };
 
   // Handle removing item from cart
@@ -59,6 +68,11 @@ function App() {
         return item;
       })
     );
+  };
+
+  // Clear cart entirely
+  const clearCart = () => {
+    setCart([]);
   };
 
   // Total cart count for the Navbar badge
@@ -84,11 +98,29 @@ function App() {
                 />
               } 
             />
+            <Route 
+              path="/checkout" 
+              element={
+                <Checkout 
+                  cartItems={cart} 
+                  onClearCart={clearCart} 
+                />
+              } 
+            />
             <Route path="/login" element={<Login />} />
           </Routes>
         </main>
         
         <Footer />
+        
+        {/* Toast Notification Container */}
+        <div className="toast-container">
+          <Toast 
+            message={toast.message} 
+            type={toast.type} 
+            onClose={() => setToast({ message: '', type: 'success' })} 
+          />
+        </div>
       </div>
     </Router>
   );

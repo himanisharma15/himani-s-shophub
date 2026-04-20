@@ -1,7 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Cart = ({ cartItems, onRemoveFromCart, onUpdateQuantity }) => {
+  const navigate = useNavigate();
   // Calculate total price
   const totalPrice = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
@@ -55,7 +56,12 @@ const Cart = ({ cartItems, onRemoveFromCart, onUpdateQuantity }) => {
               <strong>Total:</strong>
               <strong>${totalPrice.toFixed(2)}</strong>
             </div>
-            <button className="btn-primary checkout-btn">Proceed to Checkout</button>
+            <button 
+              className="btn-primary checkout-btn" 
+              onClick={() => navigate('/checkout')}
+            >
+              Proceed to Checkout
+            </button>
           </div>
         </div>
       )}
